@@ -25,6 +25,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/eduServer/teacher")
+@CrossOrigin
 public class EduTeacherController {
 
     // 注入Service
@@ -46,6 +47,19 @@ public class EduTeacherController {
 
         if (eduTeacherService.removeById(id)) {
             return R.ok();
+        }else {
+            return R.error();
+        }
+    }
+
+    // 根据id获取教师信息
+    @GetMapping("getTeacher/{id}")
+    public R getTeacherById(@PathVariable String id){
+
+        EduTeacher teacher = eduTeacherService.getById(id);
+
+        if (teacher != null) {
+            return R.ok().data("item", teacher);
         }else {
             return R.error();
         }
@@ -82,24 +96,26 @@ public class EduTeacherController {
             wrapper.like("name", name);
         }
 
-        if (StringUtils.isEmpty(level)) {
+        if (!StringUtils.isEmpty(level)) {
             wrapper.eq("level", level);
         }
 
-        if (StringUtils.isEmpty(begin)) {
+        if (!StringUtils.isEmpty(begin)) {
             // 大于等于
             wrapper.gt("gmt_create", begin);
         }
 
-        if (StringUtils.isEmpty(end)) {
+        if (!StringUtils.isEmpty(end)) {
             // 小于等于
             wrapper.le("gmt_create", end);
         }
 
+        wrapper.orderByDesc("gmt_modified");
+
         // 实现分页
         eduTeacherService.page(page, wrapper);
 
-        return R.ok().data("items", page.getRecords());
+        return R.ok().data("items", page.getRecords()).data("total", page.getTotal());
     }
 
     // 添加讲师
