@@ -17,7 +17,7 @@ public class OssController {
     @Autowired
     private OssService ossService;
 
-    @PostMapping()
+    @PostMapping("/upload")
     public R uploadOss(MultipartFile file) {
 
         // 上传文件 返回文件的 oss地址

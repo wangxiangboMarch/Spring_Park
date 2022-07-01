@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.util.Date;
+import java.util.UUID;
 
 @Service
 public class OssServiceImpl implements OssService {
@@ -31,7 +32,10 @@ public class OssServiceImpl implements OssService {
         String secretKey = ConstantPropertiesUtils.SECRET_KEY;
         String bucket = ConstantPropertiesUtils.BUCKET_NAME;
 //默认不指定key的情况下，以文件内容的hash值作为文件名
-        String key = "file_" + DateFormatUtils.format(new Date(),"yyyyMMddHHmmss") + ".png";
+        // 1. UUID 唯一值
+        String uuid = UUID.randomUUID().toString().replaceAll("-","");
+        String type = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+        String key = DateFormatUtils.format(new Date(),"yyyy/MM/dd") + "/" + uuid + type;
         try {
             InputStream fileInputStream = file.getInputStream();
             Auth auth = Auth.create(accessKey, secretKey);
