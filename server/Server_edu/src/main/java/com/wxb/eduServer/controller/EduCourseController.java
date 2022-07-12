@@ -33,7 +33,7 @@ public class EduCourseController {
     @PostMapping("addCourseInfo")
     public R saveCourseInfo(@ApiParam(name = "CourseInfoForm", value = "课程基本信息", required = true)
         @RequestBody CourseInfoForm courseInfoForm){
-
+        // 返回课程id 为了后面添加课程大纲时候需要
         String courseId = courseService.saveCourseInfo(courseInfoForm);
 
         if(!StringUtils.isEmpty(courseId)){
