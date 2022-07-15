@@ -2,6 +2,7 @@ package com.wxb.eduServer.controller;
 
 
 import com.wxb.eduServer.entity.vo.CourseInfoForm;
+import com.wxb.eduServer.entity.vo.CoursePublishVo;
 import com.wxb.eduServer.service.EduCourseService;
 import com.wxb.utils.R;
 import io.swagger.annotations.Api;
@@ -41,6 +42,31 @@ public class EduCourseController {
         }else{
             return R.error().message("保存失败");
         }
+    }
+
+    @ApiOperation(value = "根据ID查询课程")
+    @GetMapping("courseInfo/{id}")
+    public R getById(@ApiParam(name = "id", value = "课程ID", required = true)
+        @PathVariable String id){
+        CourseInfoForm courseInfoForm = courseService.getCourseInfoFormById(id);
+        return R.ok().data("item", courseInfoForm);
+    }
+
+
+    @ApiOperation(value = "更新课程")
+    @PostMapping("updateCourseInfo")
+    public R updateCourseInfoById(@ApiParam(name = "CourseInfoForm", value = "课程基本信息", required = true)
+        @RequestBody CourseInfoForm courseInfoForm){
+        courseService.updateCourseInfoById(courseInfoForm);
+        return R.ok();
+    }
+
+    @ApiOperation(value = "根据ID获取课程发布信息")
+    @GetMapping("course-publish-info/{id}")
+    public R getCoursePublishVoById(@ApiParam(name = "id", value = "课程ID", required = true)
+        @PathVariable String id){
+        CoursePublishVo courseInfoForm = courseService.getCoursePublishVoById(id);
+        return R.ok().data("item", courseInfoForm);
     }
 }
 

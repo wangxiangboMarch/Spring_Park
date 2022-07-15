@@ -2,6 +2,7 @@ package com.wxb.eduServer.mapper;
 
 import com.wxb.eduServer.entity.EduCourse;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.wxb.eduServer.entity.vo.CoursePublishVo;
 
 /**
  * <p>
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface EduCourseMapper extends BaseMapper<EduCourse> {
 
+    CoursePublishVo selectCoursePublishVoById(String id);
 }

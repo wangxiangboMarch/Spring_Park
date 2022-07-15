@@ -1,5 +1,6 @@
 package com.wxb.eduServer.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wxb.eduServer.entity.EduVideo;
 import com.wxb.eduServer.mapper.EduVideoMapper;
 import com.wxb.eduServer.service.EduVideoService;
@@ -17,4 +18,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class EduVideoServiceImpl extends ServiceImpl<EduVideoMapper, EduVideo> implements EduVideoService {
 
+    @Override
+    public boolean getCountByChapterId(String chapterId) {
+        QueryWrapper<EduVideo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("chapter_id", chapterId);
+        Integer count = baseMapper.selectCount(queryWrapper);
+        return null != count && count > 0;
+    }
 }

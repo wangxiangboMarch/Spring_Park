@@ -3,6 +3,7 @@ package com.wxb.eduServer.service.impl;
 import com.wxb.eduServer.entity.EduCourse;
 import com.wxb.eduServer.entity.EduCourseDescription;
 import com.wxb.eduServer.entity.vo.CourseInfoForm;
+import com.wxb.eduServer.entity.vo.CoursePublishVo;
 import com.wxb.eduServer.mapper.EduCourseMapper;
 import com.wxb.eduServer.service.EduCourseDescriptionService;
 import com.wxb.eduServer.service.EduCourseService;
@@ -47,5 +48,48 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
             throw new GuliException(20001, "课程详情信息保存失败");
         }
         return course.getId();
+    }
+
+    @Override
+    public CourseInfoForm getCourseInfoFormById(String id) {
+        EduCourse course = this.getById(id);
+        if(course == null){
+            throw new GuliException(20001, "数据不存在");
+        }
+
+        CourseInfoForm courseInfoForm = new CourseInfoForm();
+        BeanUtils.copyProperties(course, courseInfoForm);
+        EduCourseDescription courseDescription = courseDescriptionService.getById(id);
+        if(course != null){
+            courseInfoForm.setDescription(courseDescription.getDescription());
+        }
+        return courseInfoForm;
+    }
+
+    @Override
+    public void updateCourseInfoById(CourseInfoForm courseInfoForm) {
+        //保存课程基本信息
+        EduCourse course = new EduCourse();
+        BeanUtils.copyProperties(courseInfoForm, course);
+        boolean resultCourseInfo = this.updateById(course);
+        if(!resultCourseInfo){
+            throw new GuliException(20001, "课程信息保存失败");
+        }
+
+        //保存课程详情信息
+        EduCourseDescription courseDescription = new EduCourseDescription();
+        courseDescription.setDescription(courseInfoForm.getDescription());
+        courseDescription.setId(course.getId());
+        boolean resultDescription = courseDescriptionService.updateById(courseDescription);
+        if(!resultDescription){
+            throw new GuliException(20001, "课程详情信息保存失败");
+        }
+    }
+
+    @Override
+    public CoursePublishVo getCoursePublishVoById(String id) {
+        // 调用mapper
+        CoursePublishVo coursePublishVo = baseMapper.selectCoursePublishVoById(id);
+        return coursePublishVo;
     }
 }

@@ -2,6 +2,9 @@ package com.wxb.eduServer.service;
 
 import com.wxb.eduServer.entity.EduChapter;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.wxb.eduServer.entity.chapter.ChapterVo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface EduChapterService extends IService<EduChapter> {
 
+    List<ChapterVo> nestedList(String courseId);
+
+    boolean removeChapterById(String id);
 }

@@ -3,6 +3,7 @@ package com.wxb.eduServer.service;
 import com.wxb.eduServer.entity.EduCourse;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wxb.eduServer.entity.vo.CourseInfoForm;
+import com.wxb.eduServer.entity.vo.CoursePublishVo;
 
 /**
  * <p>
@@ -20,4 +21,11 @@ public interface EduCourseService extends IService<EduCourse> {
      * @return 新生成的课程id
      */
     String saveCourseInfo(CourseInfoForm courseInfoForm);
+
+    // 更具课程id 获取课程信息
+    CourseInfoForm getCourseInfoFormById(String id);
+
+    void updateCourseInfoById(CourseInfoForm courseInfoForm);
+
+    CoursePublishVo getCoursePublishVoById(String id);
 }
