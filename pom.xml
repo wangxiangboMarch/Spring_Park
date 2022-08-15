@@ -5,6 +5,7 @@
     <modules>
         <module>server</module>
         <module>common</module>
+        <module>server/Server_vod</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
